@@ -23,13 +23,9 @@ const (
 func main() {
 	args := os.Args
 
-	if !isTerminal() {
-		os.Exit(1)
-	}
-
 	if len(args) < 3 {
 		help()
-		return
+		os.Exit(1)
 	}
 
 	switch args[1] {
@@ -44,15 +40,7 @@ func main() {
 		help()
 	}
 
-}
-
-func isTerminal() bool {
-	fileInfo, err := os.Stdout.Stat()
-	if err != nil {
-		return false
-	}
-
-	return (fileInfo.Mode() & os.ModeCharDevice) != 0
+	os.Exit(0)
 }
 
 func check(e error) {

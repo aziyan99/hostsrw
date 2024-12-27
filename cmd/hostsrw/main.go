@@ -19,6 +19,7 @@ const (
 	HOSTS_FLAG    = "yawamp"
 )
 
+// TODO: Add unit tests
 func main() {
 	args := os.Args
 

@@ -148,7 +148,7 @@ func add(entry string) {
 
 	hosts := strings.Split(string(hostsBuf), NEW_LINE_FLAG)
 
-	newHost := "127.0.0.1\t\t" + entry + "\t\t\t\t#yawamp magic!\n"
+	newHost := "127.0.0.1\t\t" + entry + "\n"
 
 	// TODO: Ignore whitespace or empty lines when appending hosts
 

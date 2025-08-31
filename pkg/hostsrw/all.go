@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aziyan99/hostsrw/pkg/helper"
+	"github.com/aziyan99/hostsrw/v2/pkg/helper"
 )
 
 func All() ([]string, error) {

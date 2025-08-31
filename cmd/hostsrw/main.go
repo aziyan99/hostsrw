@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aziyan99/hostsrw/pkg/helper"
-	"github.com/aziyan99/hostsrw/pkg/hostsrw"
+	"github.com/aziyan99/hostsrw/v2/pkg/helper"
+	"github.com/aziyan99/hostsrw/v2/pkg/hostsrw"
 )
 
 // TODO: Save conf to *.ini file(?)

@@ -4,8 +4,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aziyan99/hostsrw/pkg/elevated"
-	"github.com/aziyan99/hostsrw/pkg/helper"
+	"github.com/aziyan99/hostsrw/v2/pkg/elevated"
+	"github.com/aziyan99/hostsrw/v2/pkg/helper"
 )
 
 func Remove(entry string) error {

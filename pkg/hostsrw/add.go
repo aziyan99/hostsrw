@@ -5,12 +5,13 @@ import (
 	"strings"
 
 	"github.com/aziyan99/hostsrw/pkg/elevated"
-	"github.com/aziyan99/hostsrw/pkg/helper"
 )
 
-func Add(entry string, hostPath string, newLineFlag string) {
+func Add(entry string, hostPath string, newLineFlag string) error {
 	hostsBuf, err := os.ReadFile(hostPath)
-	helper.Check(err)
+	if err != nil {
+		return err
+	}
 
 	hosts := strings.Split(string(hostsBuf), newLineFlag)
 
@@ -52,4 +53,6 @@ func Add(entry string, hostPath string, newLineFlag string) {
 	}
 
 	f.Sync()
+
+	return nil
 }

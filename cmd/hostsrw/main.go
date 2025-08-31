@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/aziyan99/hostsrw/pkg/helper"
@@ -10,7 +11,7 @@ import (
 // TODO: Save conf to *.ini file(?)
 // TODO: Add debug flag for -verbose output
 const (
-	HostsRWVersion = "1.1.0"
+	HostsRWVersion = "1.2.0"
 
 	HOSTS_PATH    = "C:\\Windows\\System32\\drivers\\etc\\hosts"
 	NEW_LINE_FLAG = "\n"
@@ -27,14 +28,33 @@ func main() {
 
 	switch args[1] {
 	case "all":
-		hostsrw.All(HOSTS_PATH, NEW_LINE_FLAG)
+		hosts, err := hostsrw.All(HOSTS_PATH, NEW_LINE_FLAG)
+		if err != nil {
+			helper.Check(err)
+		}
+
+		for i := 0; i < len(hosts); i++ {
+			fmt.Println(hosts[i])
+		}
+
 	case "exists":
 		// TODO: Also accept IP
-		hostsrw.Exists(args[2], HOSTS_PATH, NEW_LINE_FLAG)
+		hosts, err := hostsrw.Exists(args[2], HOSTS_PATH, NEW_LINE_FLAG)
+		if err != nil {
+			helper.Check(err)
+		}
+
+		for i := 0; i < len(hosts); i++ {
+			fmt.Println(hosts[i])
+		}
 	case "add":
-		hostsrw.Add(args[2], HOSTS_PATH, NEW_LINE_FLAG)
+		if err := hostsrw.Add(args[2], HOSTS_PATH, NEW_LINE_FLAG); err != nil {
+			helper.Check(err)
+		}
 	case "rm":
-		hostsrw.Remove(args[2], HOSTS_PATH, NEW_LINE_FLAG)
+		if err := hostsrw.Remove(args[2], HOSTS_PATH, NEW_LINE_FLAG); err != nil {
+			helper.Check(err)
+		}
 	default:
 		helper.Help(HostsRWVersion)
 	}

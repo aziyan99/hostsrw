@@ -1,22 +1,29 @@
 package hostsrw
 
 import (
-	"fmt"
 	"os"
 	"strings"
-
-	"github.com/aziyan99/hostsrw/pkg/helper"
 )
 
-func Exists(entry string, hostPath string, newLineFlag string) {
+func Exists(entry string, hostPath string, newLineFlag string) ([]string, error) {
 	hostsBuf, err := os.ReadFile(hostPath)
-	helper.Check(err)
+	if err != nil {
+		return []string{}, err
+	}
 
 	hosts := strings.Split(string(hostsBuf), newLineFlag)
 
+	var allHosts []string
 	for i := 0; i < len(hosts); i++ {
 		if strings.Contains(hosts[i], entry) {
-			fmt.Printf("%s\n", hosts[i])
+			allHosts = append(allHosts, hosts[i])
 		}
 	}
+
+	if len(allHosts) == 0 {
+		return []string{}, nil
+	}
+
+	return allHosts, nil
+
 }

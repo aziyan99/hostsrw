@@ -5,15 +5,16 @@ import (
 	"strings"
 
 	"github.com/aziyan99/hostsrw/pkg/elevated"
+	"github.com/aziyan99/hostsrw/pkg/helper"
 )
 
-func Add(entry string, hostPath string, newLineFlag string) error {
-	hostsBuf, err := os.ReadFile(hostPath)
+func Add(entry string) error {
+	hostsBuf, err := os.ReadFile(helper.HOSTS_PATH)
 	if err != nil {
 		return err
 	}
 
-	hosts := strings.Split(string(hostsBuf), newLineFlag)
+	hosts := strings.Split(string(hostsBuf), helper.NEW_LINE_FLAG)
 
 	newHost := "127.0.0.1\t\t" + entry + "\n"
 
@@ -40,7 +41,7 @@ func Add(entry string, hostPath string, newLineFlag string) error {
 	// The other bits are currently unused.
 	// Use mode 0400 for a read-only file and 0600 for a readable+writable file.
 
-	f, _ := os.OpenFile(hostPath, os.O_RDWR|os.O_TRUNC, 0600)
+	f, _ := os.OpenFile(helper.HOSTS_PATH, os.O_RDWR|os.O_TRUNC, 0600)
 
 	defer f.Close()
 

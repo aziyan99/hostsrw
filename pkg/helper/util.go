@@ -2,14 +2,21 @@ package helper
 
 import "fmt"
 
+var (
+	HostsRWVersion = "2.2.0"
+
+	HOSTS_PATH    = "C:\\Windows\\System32\\drivers\\etc\\hosts"
+	NEW_LINE_FLAG = "\n"
+)
+
 func Check(e error) {
 	if e != nil {
 		panic(e)
 	}
 }
 
-func Help(hostsRWVersion string) {
-	fmt.Println("\nhostsrw - read/write windows hosts file [version  " + hostsRWVersion + "]")
+func Help() {
+	fmt.Println("\nhostsrw - read/write windows hosts file [version  " + HostsRWVersion + "]")
 	fmt.Println("")
 	fmt.Println("\nUsage:")
 	fmt.Println(" ")

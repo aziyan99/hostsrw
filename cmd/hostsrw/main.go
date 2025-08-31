@@ -10,25 +10,18 @@ import (
 
 // TODO: Save conf to *.ini file(?)
 // TODO: Add debug flag for -verbose output
-const (
-	HostsRWVersion = "1.2.0"
-
-	HOSTS_PATH    = "C:\\Windows\\System32\\drivers\\etc\\hosts"
-	NEW_LINE_FLAG = "\n"
-)
-
 // TODO: Add unit tests
 func main() {
 	args := os.Args
 
 	if len(args) < 2 {
-		helper.Help(HostsRWVersion)
+		helper.Help()
 		os.Exit(1)
 	}
 
 	switch args[1] {
 	case "all":
-		hosts, err := hostsrw.All(HOSTS_PATH, NEW_LINE_FLAG)
+		hosts, err := hostsrw.All()
 		if err != nil {
 			helper.Check(err)
 		}
@@ -39,7 +32,7 @@ func main() {
 
 	case "exists":
 		// TODO: Also accept IP
-		hosts, err := hostsrw.Exists(args[2], HOSTS_PATH, NEW_LINE_FLAG)
+		hosts, err := hostsrw.Exists(args[2])
 		if err != nil {
 			helper.Check(err)
 		}
@@ -48,15 +41,15 @@ func main() {
 			fmt.Println(hosts[i])
 		}
 	case "add":
-		if err := hostsrw.Add(args[2], HOSTS_PATH, NEW_LINE_FLAG); err != nil {
+		if err := hostsrw.Add(args[2]); err != nil {
 			helper.Check(err)
 		}
 	case "rm":
-		if err := hostsrw.Remove(args[2], HOSTS_PATH, NEW_LINE_FLAG); err != nil {
+		if err := hostsrw.Remove(args[2]); err != nil {
 			helper.Check(err)
 		}
 	default:
-		helper.Help(HostsRWVersion)
+		helper.Help()
 	}
 
 	os.Exit(0)

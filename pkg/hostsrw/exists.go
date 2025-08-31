@@ -3,15 +3,17 @@ package hostsrw
 import (
 	"os"
 	"strings"
+
+	"github.com/aziyan99/hostsrw/pkg/helper"
 )
 
-func Exists(entry string, hostPath string, newLineFlag string) ([]string, error) {
-	hostsBuf, err := os.ReadFile(hostPath)
+func Exists(entry string) ([]string, error) {
+	hostsBuf, err := os.ReadFile(helper.HOSTS_PATH)
 	if err != nil {
 		return []string{}, err
 	}
 
-	hosts := strings.Split(string(hostsBuf), newLineFlag)
+	hosts := strings.Split(string(hostsBuf), helper.NEW_LINE_FLAG)
 
 	var allHosts []string
 	for i := 0; i < len(hosts); i++ {

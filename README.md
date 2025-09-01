@@ -1,6 +1,6 @@
 # hostsrw
 
-`hostsrw` is a simple cli app that able to read and write windows hosts file.
+`hostsrw` is a simple cli app / package that able to read and write windows hosts file.
 
 ## Installation
 
@@ -11,12 +11,25 @@ To build the hostsrw without using `Make`:
 go build -mod=readonly -ldflags "-s -w" -o .\build\hostsrw.exe .\cmd\hostsrw\main.go
 ```
 
-## Usage
+## Usage CLI
 
 ```
 hostsrw add [entry]        : Add a new entry.
 hostsrw rm  [entry]        : Remove an existng entry.
 hostsrw exists [entry]     : Determine if entry is exists.
+```
+
+## Usage Programmatically
+Programmatically/package usage will need elevated admin permission.
+
+```go
+allHosts := hostsrw.All()
+
+existsHosts := hostsrw.Exists("foo.local")
+
+hostsrw.Add("foo.local")
+
+hostsrw.Remove("foo.local")
 ```
 
 ## Contributing

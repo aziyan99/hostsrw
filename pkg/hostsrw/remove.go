@@ -1,6 +1,8 @@
 package hostsrw
 
 import (
+	"errors"
+	"io/fs"
 	"os"
 	"strings"
 
@@ -16,7 +18,11 @@ func Remove(entry string) error {
 	hosts := strings.Split(string(hostsBuf), helper.NEW_LINE_FLAG)
 
 	var newHosts []string
-	for i := 0; i < len(hosts); i++ {
+	for i := range hosts {
+		if hosts[i] == "" {
+			continue
+		}
+
 		if !strings.Contains(hosts[i], entry) {
 			newHosts = append(newHosts, hosts[i])
 		}
@@ -29,7 +35,10 @@ func Remove(entry string) error {
 	// The other bits are currently unused.
 	// Use mode 0400 for a read-only file and 0600 for a readable+writable file.
 
-	f, _ := os.OpenFile(helper.HOSTS_PATH, os.O_RDWR|os.O_TRUNC, 0600)
+	f, err := os.OpenFile(helper.HOSTS_PATH, os.O_RDWR|os.O_TRUNC, 0600)
+	if err != nil && errors.Is(err, fs.ErrPermission) {
+		return nil
+	}
 
 	defer f.Close()
 

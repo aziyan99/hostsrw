@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aziyan99/hostsrw/v2/pkg/elevated"
@@ -23,9 +24,7 @@ func main() {
 	switch args[1] {
 	case "all":
 		hosts, err := hostsrw.All()
-		if err != nil {
-			helper.Check(err)
-		}
+		helper.Check(err)
 
 		for i := 0; i < len(hosts); i++ {
 			fmt.Println(hosts[i])
@@ -34,32 +33,28 @@ func main() {
 	case "exists":
 		// TODO: Also accept IP
 		hosts, err := hostsrw.Exists(args[2])
-		if err != nil {
-			helper.Check(err)
-		}
+		helper.Check(err)
 
 		for i := 0; i < len(hosts); i++ {
 			fmt.Println(hosts[i])
 		}
 	case "add":
 		if !elevated.AmAdmin() {
-			if err := elevated.RunMeElevated(); err != nil {
-				helper.Check(err)
-			}
+			elevated.RunMeElevated()
 		}
 
-		if err := hostsrw.Add(args[2]); err != nil {
-			helper.Check(err)
+		err := hostsrw.Add(args[2])
+		if err != nil {
+			log.Fatalf("unable to write '%s' into hosts file. Error: %v\n", args[2], err)
 		}
 	case "rm":
 		if !elevated.AmAdmin() {
-			if err := elevated.RunMeElevated(); err != nil {
-				helper.Check(err)
-			}
+			elevated.RunMeElevated()
 		}
 
-		if err := hostsrw.Remove(args[2]); err != nil {
-			helper.Check(err)
+		err := hostsrw.Remove(args[2])
+		if err != nil {
+			log.Fatalf("unable to remove '%s' from hosts file. Error: %v\n", args[2], err)
 		}
 	default:
 		helper.Help()

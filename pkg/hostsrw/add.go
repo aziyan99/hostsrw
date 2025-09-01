@@ -1,6 +1,8 @@
 package hostsrw
 
 import (
+	"errors"
+	"io/fs"
 	"os"
 	"strings"
 
@@ -22,6 +24,10 @@ func Add(entry string) error {
 	var newHosts []string
 	isEntryExists := false
 	for i := 0; i < len(hosts); i++ {
+		if hosts[i] == "" {
+			continue
+		}
+
 		if strings.Contains(hosts[i], entry) {
 			isEntryExists = true
 		}
@@ -40,7 +46,10 @@ func Add(entry string) error {
 	// The other bits are currently unused.
 	// Use mode 0400 for a read-only file and 0600 for a readable+writable file.
 
-	f, _ := os.OpenFile(helper.HOSTS_PATH, os.O_RDWR|os.O_TRUNC, 0600)
+	f, err := os.OpenFile(helper.HOSTS_PATH, os.O_RDWR|os.O_TRUNC, 0600)
+	if err != nil && errors.Is(err, fs.ErrPermission) {
+		return nil
+	}
 
 	defer f.Close()
 

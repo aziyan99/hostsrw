@@ -37,8 +37,9 @@ func Remove(entry string) error {
 	_, err = f.WriteString(strings.Join(newHosts, "\n"))
 	if err != nil {
 		if !elevated.AmAdmin() {
-			// TODO: Only ask permission when neccessary
-			elevated.RunMeElevated()
+			if err = elevated.RunMeElevated(); err != nil {
+				return err
+			}
 		}
 	}
 

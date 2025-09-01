@@ -47,9 +47,10 @@ func Add(entry string) error {
 
 	_, err = f.WriteString(strings.Join(newHosts, "\n"))
 	if err != nil {
-		// TODO: Only ask permission when neccessary
 		if !elevated.AmAdmin() {
-			elevated.RunMeElevated()
+			if err = elevated.RunMeElevated(); err != nil {
+				return err
+			}
 		}
 	}
 

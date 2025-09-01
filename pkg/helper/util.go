@@ -3,7 +3,7 @@ package helper
 import "fmt"
 
 var (
-	HostsRWVersion = "2.2.0"
+	HostsRWVersion = "2.2.1"
 
 	HOSTS_PATH    = "C:\\Windows\\System32\\drivers\\etc\\hosts"
 	NEW_LINE_FLAG = "\n"

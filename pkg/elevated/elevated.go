@@ -1,7 +1,6 @@
 package elevated
 
 import (
-	"fmt"
 	"os"
 	"strings"
 	"syscall"
@@ -14,7 +13,7 @@ func AmAdmin() bool {
 	return err == nil
 }
 
-func RunMeElevated() {
+func RunMeElevated() error {
 	// https://gist.github.com/jerblack/d0eb182cc5a1c1d92d92a4c4fcc416c6
 	verb := "runas"
 	exe, _ := os.Executable()
@@ -30,6 +29,8 @@ func RunMeElevated() {
 
 	err := windows.ShellExecute(0, verbPtr, exePtr, argPtr, cwdPtr, showCmd)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
+
+	return nil
 }

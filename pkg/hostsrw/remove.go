@@ -4,7 +4,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aziyan99/hostsrw/v2/pkg/elevated"
 	"github.com/aziyan99/hostsrw/v2/pkg/helper"
 )
 
@@ -36,11 +35,7 @@ func Remove(entry string) error {
 
 	_, err = f.WriteString(strings.Join(newHosts, "\n"))
 	if err != nil {
-		if !elevated.AmAdmin() {
-			if err = elevated.RunMeElevated(); err != nil {
-				return err
-			}
-		}
+		return err
 	}
 
 	f.Sync()

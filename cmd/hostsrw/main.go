@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/aziyan99/hostsrw/v2/pkg/elevated"
 	"github.com/aziyan99/hostsrw/v2/pkg/helper"
 	"github.com/aziyan99/hostsrw/v2/pkg/hostsrw"
 )
@@ -41,10 +42,22 @@ func main() {
 			fmt.Println(hosts[i])
 		}
 	case "add":
+		if !elevated.AmAdmin() {
+			if err := elevated.RunMeElevated(); err != nil {
+				helper.Check(err)
+			}
+		}
+
 		if err := hostsrw.Add(args[2]); err != nil {
 			helper.Check(err)
 		}
 	case "rm":
+		if !elevated.AmAdmin() {
+			if err := elevated.RunMeElevated(); err != nil {
+				helper.Check(err)
+			}
+		}
+
 		if err := hostsrw.Remove(args[2]); err != nil {
 			helper.Check(err)
 		}
